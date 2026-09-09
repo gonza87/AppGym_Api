@@ -1,29 +1,26 @@
 const express = require("express");
 const router = express.Router();
+
 const {
-    getExpensesController,
-    getExpenseControllerById,
-    postExpenseController,
-    putExpenseController,
-    deleteExpenseController
-} = require("../controllers/expenses.controller");
- const payloadMiddleware = require("../middlewares/payload.middleware");
-const expensesSchema = require("../models/schemas/expense.schema");
+  getActividadesController,
+  getActividadControllerById,
+} = require("../controllers/actividades.controller");
 
-router.get("/expenses", getExpensesController);
+//const payloadMiddleware = require("../middlewares/payload.middleware");
+//const expensesSchema = require("../models/schemas/expense.schema");
 
-router.get("/expenses/:id", getExpenseControllerById);
+router.get("/actividades", getActividadesController);
 
-router.post(
-  "/expenses",
-  payloadMiddleware(expensesSchema),
-  postExpenseController,
-);
+router.get("/actividades/:id", getActividadControllerById);
 
-router.delete("/expenses/:id", deleteExpenseController);
+// router.post(
+//   "/expenses",
+//   payloadMiddleware(expensesSchema),
+//   postExpenseController,
+// );
 
-router.put("/expenses/:id", putExpenseController);
+// router.delete("/expenses/:id", deleteExpenseController);
+
+// router.put("/expenses/:id", putExpenseController);
 
 module.exports = router;
-
-

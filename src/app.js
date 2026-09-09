@@ -5,7 +5,7 @@ const cors = require("cors");
 const loggerMiddleware = require("./middlewares/logger.middleware")
 const authMiddleware = require("./middlewares/auth.middleware")
 const router = require("./routes/private.router");
-const publicRouter = require("./routes/public.router")
+// const publicRouter = require("./routes/public.router")
 
 const app = express();
 
@@ -19,9 +19,9 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(loggerMiddleware);
 
-app.use("/public", publicRouter)
+// app.use("/public", publicRouter)
 
-app.use(authMiddleware);
+//app.use(authMiddleware);
 
 app.use("/v1", router)
 

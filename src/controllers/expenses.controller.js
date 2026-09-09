@@ -1,5 +1,5 @@
 const { getExpenses, findExpenses, createExpense, deleteExpense, updateExpense } = require("../models/storage");
-const sendMail = require("../services/mailjet.service");
+// const sendMail = require("../services/mailjet.service");
 const expensesSchema = require("../models/schemas/expense.schema");
 
 const getExpensesController = (req, res) => {
