@@ -4,6 +4,9 @@ const router = express.Router();
 const {
   getActividadesController,
   getActividadControllerById,
+  postActividadController,
+  putActividadController,
+  deleteActividadController,
 } = require("../controllers/actividades.controller");
 
 //const payloadMiddleware = require("../middlewares/payload.middleware");
@@ -13,14 +16,10 @@ router.get("/actividades", getActividadesController);
 
 router.get("/actividades/:id", getActividadControllerById);
 
-// router.post(
-//   "/expenses",
-//   payloadMiddleware(expensesSchema),
-//   postExpenseController,
-// );
+router.post("/actividades", postActividadController);
 
-// router.delete("/expenses/:id", deleteExpenseController);
+router.delete("/actividades/:id", deleteActividadController);
 
-// router.put("/expenses/:id", putExpenseController);
+router.put("/actividades/:id", putActividadController);
 
 module.exports = router;

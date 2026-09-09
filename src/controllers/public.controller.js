@@ -1,7 +1,7 @@
-// const pingController = (req, res) => {
-//     res.status(200).send("pong")
-// }
+const pingController = (req, res) => {
+  res.status(200).send("pong");
+};
 
-// module.exports = {
-//     pingController
-// }
+module.exports = {
+  pingController,
+};
