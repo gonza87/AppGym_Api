@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
-/*const {
+const {
     getExpensesController,
     getExpenseControllerById,
     postExpenseController,
     putExpenseController,
     deleteExpenseController
-} = require("../controllers/expenses.controller");*/
-// const payloadMiddleware = require("../middlewares/payload.middleware");
+} = require("../controllers/expenses.controller");
+ const payloadMiddleware = require("../middlewares/payload.middleware");
 const expensesSchema = require("../models/schemas/expense.schema");
 
 router.get("/expenses", getExpensesController);
@@ -26,4 +26,4 @@ router.put("/expenses/:id", putExpenseController);
 
 module.exports = router;
 
-//test
+
