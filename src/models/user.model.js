@@ -1,4 +1,4 @@
-const bcrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs");
 
 const users = [
   {
@@ -7,16 +7,18 @@ const users = [
     username: "jope",
     password: "$2b$10$03IX8vNyeMmWbzmU11gA.Oo0ksPKtguO8t5vityc4NV3maps8p2lO",
     premium: true,
-    role: "user"
+    role: "user",
+    telefono: "123456789",
   },
-    {
+  {
     id: 2,
     name: "Martin",
     username: "tincho",
     password: "$2b$10$03IX8vNyeMmWbzmU11gA.Oo0ksPKtguO8t5vityc4NV3maps8p2lO",
     premium: false,
-    role: "admin"
-  }
+    role: "admin",
+    telefono: "234576675",
+  },
 ];
 
 const getUsers = () => users;
@@ -24,36 +26,36 @@ const getUsers = () => users;
 const isValidPassword = async (password, userPassword) => {
   console.log(password);
   console.log(userPassword);
-  
-    const result = await bcrypt.compare(password, userPassword);
+
+  const result = await bcrypt.compare(password, userPassword);
   console.log(result);
 
-    return result;
-}
+  return result;
+};
 
-const saveUser = async (name, username, password) => {
-    const lastUser = users[users.length - 1];
-    const hashedPassword = await bcrypt.hash(password, 10);
+const saveUser = async (name, username, password, telefono) => {
+  const lastUser = users[users.length - 1];
+  const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = {
-        name: name,
-        username: username,
-        password: hashedPassword,
-        premium: false,
-        role: "user"
-    };
-    if (lastUser) {
-        newUser.id = lastUser.id + 1;
-    } else {
-        newUser.id = 1;
-    }
-    users.push(newUser);
+  const newUser = {
+    name: name,
+    username: username,
+    password: hashedPassword,
+    premium: false,
+    role: "user",
+    telefono: telefono,
+  };
+  if (lastUser) {
+    newUser.id = lastUser.id + 1;
+  } else {
+    newUser.id = 1;
+  }
+  users.push(newUser);
 
-    console.log(newUser);
-    
-    return newUser.id;
-}
+  console.log(newUser);
 
+  return newUser.id;
+};
 
 const findUserByUserName = (username) => {
   const user = users.find((u) => u.username == username);
@@ -61,7 +63,7 @@ const findUserByUserName = (username) => {
 };
 
 module.exports = {
-    saveUser,
-    findUserByUserName,
-    isValidPassword
+  saveUser,
+  findUserByUserName,
+  isValidPassword,
 };
