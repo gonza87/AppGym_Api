@@ -9,12 +9,13 @@ const {
   deleteActividadController,
 } = require("../controllers/actividades.controller");
 
+const {patchUserPremium} = require("../controllers/users.controller");
 
 const payloadMiddleWare = require("../middlewares/payload.middleware");
 const { actividadValidation } = require("./validations/actividad.validation");
 
 
-
+// Rutas para actividades
 router.get("/actividades",  getActividadesController);
 
 router.get("/actividades/:id", getActividadControllerById);
@@ -24,5 +25,9 @@ router.post("/actividades", payloadMiddleWare(actividadValidation), postActivida
 router.delete("/actividades/:id", deleteActividadController);
 
 router.put("/actividades/:id", payloadMiddleWare(actividadValidation), putActividadController);
+
+//Rutas de usuarios
+router.patch("/usuarios/premium", patchUserPremium);
+
 
 module.exports = router;
