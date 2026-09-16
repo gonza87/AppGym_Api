@@ -4,7 +4,7 @@ const actividades = [
     nombre: "Judo",
     categoria: "Deportes de contacto",
     descripcion: "se realiza en grupos mixto",
-    fecha: "2025/10/25",
+    fecha: "2025-10-25",
     horario: "9:30",
   },
 ];

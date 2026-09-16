@@ -9,17 +9,20 @@ const {
   deleteActividadController,
 } = require("../controllers/actividades.controller");
 
-//const payloadMiddleware = require("../middlewares/payload.middleware");
-//const expensesSchema = require("../models/schemas/expense.schema");
 
-router.get("/actividades", getActividadesController);
+const payloadMiddleWare = require("../middlewares/payload.middleware");
+const { actividadValidation } = require("./validations/actividad.validation");
+
+
+
+router.get("/actividades",  getActividadesController);
 
 router.get("/actividades/:id", getActividadControllerById);
 
-router.post("/actividades", postActividadController);
+router.post("/actividades", payloadMiddleWare(actividadValidation), postActividadController);
 
 router.delete("/actividades/:id", deleteActividadController);
 
-router.put("/actividades/:id", putActividadController);
+router.put("/actividades/:id", payloadMiddleWare(actividadValidation), putActividadController);
 
 module.exports = router;
