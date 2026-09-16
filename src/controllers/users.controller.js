@@ -18,7 +18,9 @@ const patchUserPremium = async (req, res) => {
 
   return res.status(200).json({ 
     mensaje: "Plan actualizado a Premium con éxito", 
-    user 
+    name: user.name,
+    username: user.username,
+    premium: user.premium 
   });
 
     }
