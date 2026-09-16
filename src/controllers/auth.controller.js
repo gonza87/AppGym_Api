@@ -19,7 +19,7 @@ const postAuthLogin = async (req, res) => {
         return;
     }
 
-    const token = jwt.sign({ id: user.id, username: user.username },
+    const token = jwt.sign({ id: user.id, username: user.username, role: user.role },
     process.env.AUTH_SECRET_KEY, { expiresIn: '1h' });
     res.json({ token });
 
