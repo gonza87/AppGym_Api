@@ -39,7 +39,8 @@ const saveUser = async (name, username, password) => {
         name: name,
         username: username,
         password: hashedPassword,
-        active: true,
+        premium: false,
+        role: "user"
     };
     if (lastUser) {
         newUser.id = lastUser.id + 1;
