@@ -6,14 +6,16 @@ const users = [
     name: "Jose",
     username: "jope",
     password: "$2b$10$03IX8vNyeMmWbzmU11gA.Oo0ksPKtguO8t5vityc4NV3maps8p2lO",
-    premium: true
+    premium: true,
+    role: "user"
   },
     {
     id: 2,
     name: "Martin",
     username: "tincho",
     password: "$2b$10$03IX8vNyeMmWbzmU11gA.Oo0ksPKtguO8t5vityc4NV3maps8p2lO",
-    premium: false
+    premium: false,
+    role: "admin"
   }
 ];
 
