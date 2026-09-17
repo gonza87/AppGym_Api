@@ -11,10 +11,19 @@ const {
 
 const { patchUserPremium } = require("../controllers/users.controller");
 
+const {
+  getCategoriasController,
+  findCategoriaControllerById,
+  createCategoriaController,
+  updateCategoriaController,
+  deleteCategoriaController,
+} = require("../controllers/categorias.controller");
+
 const payloadMiddleWare = require("../middlewares/payload.middleware");
 const { actividadValidation } = require("./validations/actividad.validation");
+const { categoriaValidation } = require("./validations/categoria.validation");
 
-// Rutas para actividades
+// RUTAS PARA ACTIVIDADES
 router.get("/actividades", getActividadesController);
 
 router.get("/actividades/:id", getActividadControllerById);
@@ -33,7 +42,19 @@ router.put(
   putActividadController,
 );
 
-//Rutas de usuarios
+//RUTAS PARA USUARIOS
 router.patch("/usuarios/premium", patchUserPremium);
+
+//RUTAS PARA CATEGORIAS
+router.get("/categorias", getCategoriasController);
+
+router.get("/categorias/:id", findCategoriaControllerById);
+router.post(
+  "/categorias",
+  payloadMiddleWare(categoriaValidation),
+  createCategoriaController,
+);
+router.put("/categorias/:id", updateCategoriaController);
+router.delete("/categorias/:id", deleteCategoriaController);
 
 module.exports = router;

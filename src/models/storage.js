@@ -2,7 +2,7 @@ const actividades = [
   {
     id: 1,
     nombre: "Judo",
-    categoria: "Deportes de contacto",
+    categoria: "1",
     descripcion: "se realiza en grupos mixto",
     fecha: "2025-10-25",
     horario: "9:30",
