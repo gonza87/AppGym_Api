@@ -19,9 +19,19 @@ const {
   deleteCategoriaController,
 } = require("../controllers/categorias.controller");
 
+const {
+  getInscripcionesController,
+  getInscripcionControllerById,
+  postInscripcionController,
+  deleteInscripcionController,
+} = require("../controllers/inscripciones.controller");
+
 const payloadMiddleWare = require("../middlewares/payload.middleware");
 const { actividadValidation } = require("./validations/actividad.validation");
 const { categoriaValidation } = require("./validations/categoria.validation");
+const {
+  inscripcionValidation,
+} = require("./validations/inscripcion.validation");
 
 // RUTAS PARA ACTIVIDADES
 router.get("/actividades", getActividadesController);
@@ -56,5 +66,17 @@ router.post(
 );
 router.put("/categorias/:id", updateCategoriaController);
 router.delete("/categorias/:id", deleteCategoriaController);
+
+//RUTAS INSCRIPCIONES
+router.post(
+  "/inscripciones",
+  payloadMiddleWare(inscripcionValidation),
+  postInscripcionController,
+);
+
+router.get("/inscripciones", getInscripcionesController);
+
+router.get("/inscripciones/:id", getInscripcionControllerById);
+router.delete("/inscripciones/:id", deleteInscripcionController);
 
 module.exports = router;
