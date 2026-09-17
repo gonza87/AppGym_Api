@@ -21,8 +21,12 @@ const getInscripcionControllerById = (req, res) => {
 };
 
 const postInscripcionController = async (req, res) => {
-  const { userId, categoryId, actividadId, fecha } = req.body;
-  createInscripcion(userId, categoryId, actividadId, fecha);
+  const role = req.user.role;
+  const userId = req.user.id;
+
+  const { actividadId, fecha } = req.body;
+
+  createInscripcion(userId, actividadId, fecha);
   res.status(201).json({
     message: "Inscripción creada correctamente",
   });

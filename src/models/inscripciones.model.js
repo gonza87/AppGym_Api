@@ -2,14 +2,14 @@ const inscripciones = [
   {
     id: 1,
     userId: "1",
-    categoryId: "1",
+
     actividadId: "1",
     fecha: "2025-10-25",
   },
   {
     id: 2,
     userId: "1",
-    categoryId: "1",
+
     actividadId: "1",
     fecha: "2025-10-26",
   },
@@ -21,11 +21,10 @@ const getInscripciones = () => inscripciones;
 
 const findInscripcion = (id) => inscripciones.find((i) => i.id == id);
 
-const createInscripcion = (userId, categoryId, actividadId, fecha) => {
+const createInscripcion = (userId, actividadId, fecha) => {
   const newInscripcion = {
     id: currentId++,
     userId,
-    categoryId,
     actividadId,
     fecha,
   };

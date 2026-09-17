@@ -72,3 +72,7 @@
 [2026-09-1714:11:34] METHOD: GET /inscripciones - STATUS: 200 
 [2026-09-1714:11:45] METHOD: POST /inscripciones - STATUS: 201 
 [2026-09-1714:11:48] METHOD: GET /inscripciones - STATUS: 200 
+[2026-09-1714:20:55] METHOD: GET /inscripciones - STATUS: 200 
+[2026-09-1714:21:05] METHOD: GET /inscripciones/2 - STATUS: 200 
+[2026-09-1714:21:24] METHOD: POST /inscripciones - STATUS: 201 
+[2026-09-1714:21:28] METHOD: GET /inscripciones - STATUS: 200 
