@@ -41,6 +41,7 @@ const deleteInscripcionController = (req, res) => {
   }
 };
 
+
 module.exports = {
   getInscripcionesController,
   getInscripcionControllerById,
