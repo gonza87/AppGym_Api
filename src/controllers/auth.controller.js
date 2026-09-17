@@ -4,7 +4,7 @@ const {
   isValidPassword,
 } = require("../models/user.model");
 const jwt = require("jsonwebtoken");
-const sendSMS = require("../services/wpp.service");
+const sendSMS = require("../services/sms.service");
 
 const postAuthLogin = async (req, res) => {
   const { body } = req;
