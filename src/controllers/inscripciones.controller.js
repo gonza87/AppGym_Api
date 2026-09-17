@@ -21,8 +21,8 @@ const getInscripcionControllerById = (req, res) => {
 };
 
 const postInscripcionController = async (req, res) => {
-  const { userId, categoryId, fecha } = req.body;
-  createInscripcion(userId, categoryId, fecha);
+  const { userId, categoryId, actividadId, fecha } = req.body;
+  createInscripcion(userId, categoryId, actividadId, fecha);
   res.status(201).json({
     message: "Inscripción creada correctamente",
   });
@@ -40,7 +40,6 @@ const deleteInscripcionController = (req, res) => {
     });
   }
 };
-
 
 module.exports = {
   getInscripcionesController,
