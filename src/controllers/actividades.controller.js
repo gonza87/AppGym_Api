@@ -1,4 +1,4 @@
-const { getActividades, findActividad, createActividad, deleteActividad, updateActividad } = require("../models/storage");
+const { getActividades, findActividad, createActividad, deleteActividad, updateActividad } = require("../models/actividad.model");
 
 const getActividadesController = (req, res) => {
   res.status(200).json(getActividades());
