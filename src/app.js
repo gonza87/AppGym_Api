@@ -7,6 +7,18 @@ const authMiddleware = require("./middlewares/auth.middleware");
 const privateRouter = require("./routes/private.router");
 const publicRouter = require("./routes/public.router");
 const authRouter = require("./routes/auth.router");
+const connectMongoDB = require("./models/mongo.client");
+
+
+(async () => {
+  try {
+    await connectMongoDB();
+  } catch (error) {
+    console.log("Ocurrio un error", error);
+    process.exit();
+  }
+})();
+
 
 const app = express();
 
@@ -31,6 +43,7 @@ app.use(authMiddleware);
 // Private
 app.use("/v1", privateRouter);
 
-app.listen(process.env.PORT, () => {
-  console.log("Listen & serve PORT:3000");
+const PORT = process.env.PORT;
+app.listen(PORT, () => {
+  console.log(`Listen & serve PORT: ${PORT}`);
 });

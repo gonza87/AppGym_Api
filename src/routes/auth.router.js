@@ -1,5 +1,5 @@
 const express = require("express");
-const authRouter = express.Router();
+
 const {
   postAuthLogin,
   postAuthSignup,
@@ -10,10 +10,7 @@ const {
   loginValidation,
 } = require("./validations/user.validation");
 
-// const {
-//   healthController,
-//   pingController,
-// } = require("../controllers/public.controller");
+const authRouter = express.Router();
 
 authRouter.post("/signup",payloadMiddleWare(signupValidation), postAuthSignup); 
 authRouter.post("/login", payloadMiddleWare(loginValidation), postAuthLogin);

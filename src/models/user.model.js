@@ -1,4 +1,12 @@
-const bcrypt = require("bcryptjs");
+const mongoose = require("mongoose");
+const userSchema = require("./schemas/user.schema");
+
+const User = mongoose.model("User", userSchema);
+
+module.exports=User;
+
+
+/*const bcrypt = require("bcryptjs");
 
 const users = [
   {
@@ -67,3 +75,4 @@ module.exports = {
   findUserByUserName,
   isValidPassword,
 };
+*/
