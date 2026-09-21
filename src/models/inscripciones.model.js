@@ -1,47 +1,54 @@
-const inscripciones = [
-  {
-    id: 1,
-    userId: "1",
+const mongoose = require("mongoose");
+const inscripcionesSchema = require("./schemas/inscripciones.schema");
 
-    actividadId: "1",
-    fecha: "2025-10-25",
-  },
-  {
-    id: 2,
-    userId: "1",
+const Inscripcion = mongoose.model("Inscripcion", inscripcionesSchema);
 
-    actividadId: "1",
-    fecha: "2025-10-26",
-  },
-];
+module.exports=Inscripcion;
 
-let currentId = 3;
+// const inscripciones = [
+//   {
+//     id: 1,
+//     userId: "1",
 
-const getInscripciones = () => inscripciones;
+//     actividadId: "1",
+//     fecha: "2025-10-25",
+//   },
+//   {
+//     id: 2,
+//     userId: "1",
 
-const findInscripcion = (id) => inscripciones.find((i) => i.id == id);
+//     actividadId: "1",
+//     fecha: "2025-10-26",
+//   },
+// ];
 
-const createInscripcion = (userId, actividadId, fecha) => {
-  const newInscripcion = {
-    id: currentId++,
-    userId,
-    actividadId,
-    fecha,
-  };
-  inscripciones.push(newInscripcion);
-  return newInscripcion;
-};
+// let currentId = 3;
 
-const deleteInscripcion = (id) => {
-  let indexToBeDeleted = inscripciones.findIndex((i) => i.id == id);
-  if (indexToBeDeleted === -1) return false;
-  inscripciones.splice(indexToBeDeleted, 1);
-  return true;
-};
+// const getInscripciones = () => inscripciones;
 
-module.exports = {
-  getInscripciones,
-  findInscripcion,
-  createInscripcion,
-  deleteInscripcion,
-};
+// const findInscripcion = (id) => inscripciones.find((i) => i.id == id);
+
+// const createInscripcion = (userId, actividadId, fecha) => {
+//   const newInscripcion = {
+//     id: currentId++,
+//     userId,
+//     actividadId,
+//     fecha,
+//   };
+//   inscripciones.push(newInscripcion);
+//   return newInscripcion;
+// };
+
+// const deleteInscripcion = (id) => {
+//   let indexToBeDeleted = inscripciones.findIndex((i) => i.id == id);
+//   if (indexToBeDeleted === -1) return false;
+//   inscripciones.splice(indexToBeDeleted, 1);
+//   return true;
+// };
+
+// module.exports = {
+//   getInscripciones,
+//   findInscripcion,
+//   createInscripcion,
+//   deleteInscripcion,
+// };
