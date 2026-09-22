@@ -1,7 +1,7 @@
 const Category = require("../models/category.model");
 
 const findCategoryById = async (id) => {
-  return await Category.findById(id);
+  return await Category.findById(id).select("");
 };
 
 const findAllCategories = async () => {
@@ -12,21 +12,26 @@ const createCategory = async (name) => {
   const newCategory = new Category({
     name: name,
   });
-  return await newCategory.save();
+  await newCategory.save();
 };
 
 const deleteCategoryById = async (id) => {
-  const categoryToDelete = await Category.findById(id);
-  if (!categoryToDelete) return null;
-  await categoryToDelete.remove();
-  return categoryToDelete;
+  return await Category.deleteOne({ _id: id });
 };
 
 const updateCategoryById = async (id, body) => {
-  const categoryToUpdate = await Category.findById(id);
-  if (!categoryToUpdate) return null;
-  Object.assign(categoryToUpdate, body);
-  return await categoryToUpdate.save();
+
+  const catergoryUpdate = await Category.findById(id);
+  console.log(catergoryUpdate);
+
+  if (catergoryUpdate) {
+    Object.entries(body).forEach(([key, value]) => {
+      catergoryUpdate[key] = value;
+    });
+    await catergoryUpdate.save();
+  }
+
+  return catergoryUpdate;
 };
 
 module.exports = {

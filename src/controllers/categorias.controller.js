@@ -6,12 +6,12 @@ const {
   updateCategoryById,
 } = require("../repositories/category.repository");
 
-const getCategoriasController = (req, res) => {
-  res.status(200).json(findAllCategories());
+const getCategoriasController = async (req, res) => {
+  res.status(200).json(await findAllCategories());
 };
 
-const findCategoriaControllerById = (req, res) => {
-  const categoria = findCategoryById(req.params.id);
+const findCategoriaControllerById = async (req, res) => {
+  const categoria = await findCategoryById(req.params.id);
   if (categoria) {
     res.status(200).json(categoria);
   } else {
@@ -21,7 +21,7 @@ const findCategoriaControllerById = (req, res) => {
   }
 };
 
-const createCategoriaController = (req, res) => {
+const createCategoriaController = async (req, res) => {
   const role = req.user.role;
   if (role !== "admin") {
     return res.status(403).json({
@@ -30,12 +30,12 @@ const createCategoriaController = (req, res) => {
     });
   }
 
-  const { nombre } = req.body;
-  const newCategoria = createCategoria(nombre);
+  const { name } = req.body;
+  const newCategoria = await createCategory(name);
   res.status(201).json(newCategoria);
 };
 
-const updateCategoriaController = (req, res) => {
+const updateCategoriaController = async (req, res) => {
   const id = req.params.id;
   const role = req.user.role;
   if (role !== "admin") {
@@ -45,7 +45,7 @@ const updateCategoriaController = (req, res) => {
     });
   }
 
-  const updated = updateCategoryById(id, req.body);
+  const updated = await updateCategoryById(id, req.body);
   if (updated) {
     res.status(200).json(updated);
   } else {
@@ -55,7 +55,7 @@ const updateCategoriaController = (req, res) => {
   }
 };
 
-const deleteCategoriaController = (req, res) => {
+const deleteCategoriaController = async (req, res) => {
   const role = req.user.role;
   if (role !== "admin") {
     return res.status(403).json({
@@ -64,14 +64,12 @@ const deleteCategoriaController = (req, res) => {
     });
   }
 
-  const deleted = deleteCategoryById(req.params.id);
-  if (deleted) {
-    res.status(204).json({
-      message: "Categoría eliminada correctamente",
-    });
+  const deleted = await deleteCategoryById(req.params.id);
+  if (deleted.deletedCount === 1) {
+    res.status(204).send();
   } else {
     res.status(404).json({
-      message: `Categoría no encontrada`,
+      message: `Actividad no encontrada`,
     });
   }
 };
