@@ -8,7 +8,7 @@ const findInscripcionById = async (inscripcionId, userId) => {
   return await Inscripcion.find({
     _id: inscripcionId,
     userId: userId,
-  }).select("title description completed -_id");
+  }).select("userId activityId date _id");
 };
 
 /*const findAllInscripciones = async () => {
@@ -24,11 +24,8 @@ const createInscripcion = async (userId, activityId, date) => {
   return await newInscripcion.save();
 };
 
-
-
-
 const deleteInscripcionById = async (inscripcionId, userId) => {
-  return await Inscripcion.deleteOne({_id: inscripcionId, userId: userId})
+  return await Inscripcion.deleteOne({ _id: inscripcionId, userId: userId });
 };
 
 /*
@@ -38,8 +35,6 @@ const deleteToDo = async (todoId, userId) => {
 };
 
 */
-
-
 
 const getInscripcionesPaginated = async (userId, page = 1, limit = 5) => {
   const skip = (page - 1) * limit;
@@ -60,7 +55,7 @@ const getInscripcionesPaginated = async (userId, page = 1, limit = 5) => {
 
 module.exports = {
   findInscripcionById,
-  
+
   getInscripcionesPaginated,
   createInscripcion,
   deleteInscripcionById,
