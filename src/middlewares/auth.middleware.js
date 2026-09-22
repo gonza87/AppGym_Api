@@ -2,7 +2,10 @@ const jwt = require("jsonwebtoken");
 const AUTH_SECRET_KEY = process.env.AUTH_SECRET_KEY
 
 const authMiddleWare = (req, res, next) => {
-    const token = req.headers["authorization"];
+    const authorization = req.headers["authorization"];
+    const token = authorization?.startsWith("Bearer ")
+        ? authorization.slice(7)
+        : authorization;
     if (!token) {
         return res.status(401).json({ message: 'UnAuthorized - invalid token provided' });
     }
