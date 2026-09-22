@@ -8,7 +8,7 @@ const privateRouter = require("./routes/private.router");
 const publicRouter = require("./routes/public.router");
 const authRouter = require("./routes/auth.router");
 const connectMongoDB = require("./models/mongo.client");
-// const { generalLimiter } = require("./middlewares/rateLimit.middleware");
+const { generalLimiter } = require("./middlewares/rateLimit.middleware");
 
 
 
@@ -33,7 +33,7 @@ app.use(express.json());
 app.use(loggerMiddleware);
 app.use(morgan("dev"));
 app.use(cors());
-// app.use(generalLimiter);
+app.use(generalLimiter);
 
 
 app.use("/public", publicRouter);

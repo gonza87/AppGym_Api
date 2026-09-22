@@ -1,17 +1,17 @@
 const {
-  getCategorias,
-  findCategoria,
-  createCategoria,
-  deleteCategoria,
-  updateCategoria,
-} = require("../models/category.model");
+  findCategoryById,
+  findAllCategories,
+  createCategory,
+  deleteCategoryById,
+  updateCategoryById,
+} = require("../repositories/category.repository");
 
 const getCategoriasController = (req, res) => {
-  res.status(200).json(getCategorias());
+  res.status(200).json(findAllCategories());
 };
 
 const findCategoriaControllerById = (req, res) => {
-  const categoria = findCategoria(req.params.id);
+  const categoria = findCategoryById(req.params.id);
   if (categoria) {
     res.status(200).json(categoria);
   } else {
@@ -45,7 +45,7 @@ const updateCategoriaController = (req, res) => {
     });
   }
 
-  const updated = updateCategoria(id, req.body);
+  const updated = updateCategoryById(id, req.body);
   if (updated) {
     res.status(200).json(updated);
   } else {
@@ -64,7 +64,7 @@ const deleteCategoriaController = (req, res) => {
     });
   }
 
-  const deleted = deleteCategoria(req.params.id);
+  const deleted = deleteCategoryById(req.params.id);
   if (deleted) {
     res.status(204).json({
       message: "Categoría eliminada correctamente",

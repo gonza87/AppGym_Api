@@ -1,11 +1,18 @@
-const { getActividades, findActividad, createActividad, deleteActividad, updateActividad } = require("../models/actividad.model");
+const {
+  findAllActividades,
+  findActividadById,
+  createActividad,
+  deleteActividadById,
+  updateActividadById,
+} = require("../repositories/actividad.repository");
 
-const getActividadesController = (req, res) => {
-  res.status(200).json(getActividades());
+const getActividadesController = async (req, res) => {
+  const actividades = await findAllActividades();
+  res.status(200).json(actividades);
 };
 
-const getActividadControllerById = (req, res) => {
-  const actividad = findActividad(req.params.id);
+const getActividadControllerById = async (req, res) => {
+  const actividad = await findActividadById(req.params.id);
   if (actividad) {
     res.status(200).json(actividad);
   } else {
@@ -16,61 +23,64 @@ const getActividadControllerById = (req, res) => {
 };
 
 const postActividadController = async (req, res) => {
-    
-    const role = req.user.role;
-    if (role !== "admin") {
-        return res.status(403).json({ message: "Acceso denegado. Solo los administradores pueden crear actividades." });
-    }
+  const role = req.user.role;
+  if (role !== "admin") {
+    return res.status(403).json({
+      message:
+        "Acceso denegado. Solo los administradores pueden crear actividades.",
+    });
+  }
 
-    const { nombre, categoria, descripcion, fecha, horario} = req.body;
-    createActividad(nombre, categoria, descripcion, fecha, horario);
-    res.status(201).json({
-        message: "Actividad creada correctamente"
-    })
-}
+  const { name, categoryId, description, date, schedule } = req.body;
+  createActividad(name, categoryId, description, date, schedule);
+  res.status(201).json({
+    message: "Actividad creada correctamente",
+  });
+};
 
-const putActividadController = (req, res) => {
-    const id = req.params.id;
-    const role = req.user.role;
-    if (role !== "admin") {
-        return res.status(403).json({ message: "Acceso denegado. Solo los administradores pueden crear actividades." });
-    }
+const putActividadController = async (req, res) => {
+  const id = req.params.id;
+  const role = req.user.role;
+  if (role !== "admin") {
+    return res.status(403).json({
+      message:
+        "Acceso denegado. Solo los administradores pueden crear actividades.",
+    });
+  }
 
+  const updated = await updateActividadById(id, req.body);
+  if (updated) {
+    res.status(200).json(updated);
+  } else {
+    res.status(404).json({
+      message: `Actividad no encontrada`,
+    });
+  }
+};
 
-    const updated = updateActividad(id, req.body)
-    if (updated) {
-        res.status(200).json(updated)
-    } else {
-        res.status(404).json({
-            message: `Actividad no encontrada`
-        })
-    }
-}
+const deleteActividadController = async (req, res) => {
+  const role = req.user.role;
+  if (role !== "admin") {
+    return res.status(403).json({
+      message:
+        "Acceso denegado. Solo los administradores pueden crear actividades.",
+    });
+  }
 
-const deleteActividadController = (req, res) => {
-
-    const role = req.user.role;
-    if (role !== "admin") {
-        return res.status(403).json({ message: "Acceso denegado. Solo los administradores pueden crear actividades." });
-    }
-    
-    const deleted = deleteActividad(req.params.id)
-    if (deleted) {
-        res.status(204).json({
-            message: "Actividad eliminada correctamente"
-        })
-    } else {
-        res.status(404).json({
-            message: `Actividad no encontrada`
-        })
-    }
-}
+  const deleted = await deleteActividadById(req.params.id);
+  if (deleted.deletedCount === 1) {
+    res.status(204).send();
+  } else {
+    res.status(404).json({
+      message: `Actividad no encontrada`,
+    });
+  }
+};
 
 module.exports = {
   getActividadesController,
   getActividadControllerById,
   postActividadController,
   putActividadController,
-  deleteActividadController
-
+  deleteActividadController,
 };

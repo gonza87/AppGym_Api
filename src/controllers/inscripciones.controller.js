@@ -1,16 +1,16 @@
 const {
-  getInscripciones,
-  findInscripcion,
+  findInscripcionById,
+  findAllInscripciones,
   createInscripcion,
-  deleteInscripcion,
-} = require("../models/inscripciones.model");
+  deleteInscripcionById,
+} = require("../repositories/inscripciones.repository");
 
 const getInscripcionesController = (req, res) => {
-  res.status(200).json(getInscripciones());
+  res.status(200).json(findAllInscripciones());
 };
 
 const getInscripcionControllerById = (req, res) => {
-  const inscripcion = findInscripcion(req.params.id);
+  const inscripcion = findInscripcionById(req.params.id);
   if (inscripcion) {
     res.status(200).json(inscripcion);
   } else {
@@ -33,7 +33,7 @@ const postInscripcionController = async (req, res) => {
 };
 
 const deleteInscripcionController = (req, res) => {
-  const deleted = deleteInscripcion(req.params.id);
+  const deleted = deleteInscripcionById(req.params.id);
   if (deleted) {
     res.status(204).json({
       message: "Inscripción eliminada correctamente",

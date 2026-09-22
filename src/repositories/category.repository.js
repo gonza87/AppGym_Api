@@ -1,4 +1,4 @@
-const Category = requite("../models/category.model");
+const Category = require("../models/category.model");
 
 const findCategoryById = async (id) => {
   return await Category.findById(id);
