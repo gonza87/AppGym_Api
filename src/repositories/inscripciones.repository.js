@@ -1,5 +1,7 @@
 const Inscripcion = require("../models/inscripciones.model");
 const User = require("../models/user.model");
+const Actividad = require("../models/actividad.model");
+
 /*const findInscripcionById = async (id) => {
   return await Inscripcion.findById(id);
 };*/
@@ -27,8 +29,14 @@ const createInscripcion = async (userId, activityId, date) => {
     activityId: activityId,
   });
 
+  const existingActividad = await Actividad.findById(activityId);
+
   if (existingInscripcion) {
     throw new Error("El usuario ya está inscrito en esta actividad.");
+  }
+
+  if (!existingActividad) {
+    throw new Error("La actividad especificada no existe.");
   }
 
   if (
