@@ -32,7 +32,11 @@ const cambiarPlanUsuario = async (username) => {
   const updatedUser = await User.findOneAndUpdate(
     { username },
     { $set: { premium: true } },
-    { new: true, runValidators: true, projection: { password: 0 } },
+    {
+      returnDocument: "after",
+      runValidators: true,
+      projection: { password: 0 },
+    },
   );
 
   if (!updatedUser) {
