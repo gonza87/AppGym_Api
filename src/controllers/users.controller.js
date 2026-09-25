@@ -1,30 +1,36 @@
-const { findUserByUsername } = require("../repositories/user.repository");
+const { findUserByUsername, cambiarPlanUsuario } = require("../repositories/user.repository");
 //const jwt = require("jsonwebtoken");
 
 const patchUserPremium = async (req, res) => {
-  //const { body } = req;
   const { username } = req.user;
 
   try {
     const user = await findUserByUsername(username);
 
     if (!user) {
-      res.status(400).json({ message: "Usuario no existente" });
-      return;
+      return res.status(400).json({ message: "Usuario no existente" });
     }
 
-    user.premium = true;
-    await user.save();
+    if (user.premium) {
+      return res.status(400).json({ message: "El usuario ya es premium" });
+    }
+
+    // Actualizamos el plan llamando a la función del repositorio
+    const updatedUser = await cambiarPlanUsuario(username);
+
     return res.status(200).json({
       message: "Usuario actualizado a premium con éxito",
-      user,
+      user: updatedUser,
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error al actualizar el usuario.", error: error.message });
+    return res.status(500).json({ 
+      message: "Error al actualizar el usuario.", 
+      error: error.message 
+    });
   }
 };
 
 module.exports = {
-  patchUserPremium,
+  patchUserPremium
 };

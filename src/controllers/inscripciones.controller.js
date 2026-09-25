@@ -5,6 +5,7 @@ const {
   deleteInscripcionById,
 } = require("../repositories/inscripciones.repository");
 
+
 /*const getInscripcionesController = (req, res) => {
   res.status(200).json(findAllInscripciones());
 };*/

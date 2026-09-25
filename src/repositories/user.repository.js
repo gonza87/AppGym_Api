@@ -28,7 +28,22 @@ const saveUser = async (name, username, password, telefono, avatarUrl) => {
   }
 };
 
+const cambiarPlanUsuario = async (username) => {
+  const updatedUser = await User.findOneAndUpdate(
+    { username },
+    { $set: { premium: true } },
+    { new: true, runValidators: true, projection: { password: 0 } },
+  );
+
+  if (!updatedUser) {
+    throw new Error("Usuario no encontrado");
+  }
+
+  return updatedUser;
+};
+
 module.exports = {
   findUserByUsername,
   saveUser,
+  cambiarPlanUsuario,
 };
