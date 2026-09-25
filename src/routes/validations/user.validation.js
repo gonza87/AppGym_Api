@@ -12,8 +12,7 @@ const loginValidation = Joi.object({
   password: Joi.string().min(3).max(20).alphanum().required(),
 });
 
-
 module.exports = {
-    signupValidation,
-    loginValidation
+  signupValidation,
+  loginValidation,
 };

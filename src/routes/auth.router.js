@@ -10,9 +10,16 @@ const {
   loginValidation,
 } = require("./validations/user.validation");
 
+const { upload } = require("../middlewares/multer.middleware");
+
 const authRouter = express.Router();
 
-authRouter.post("/signup",payloadMiddleWare(signupValidation), postAuthSignup); 
+authRouter.post(
+  "/signup",
+  upload.single("imagen"),
+  payloadMiddleWare(signupValidation),
+  postAuthSignup,
+);
 authRouter.post("/login", payloadMiddleWare(loginValidation), postAuthLogin);
 
 module.exports = authRouter;
