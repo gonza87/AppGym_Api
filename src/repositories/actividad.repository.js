@@ -1,5 +1,6 @@
 const Actividad = require("../models/actividad.model");
 const Inscripcion = require("../models/inscripciones.model");
+const Category = require("../models/category.model");
 
 const findActividadById = async (id) => {
   return await Actividad.findById(id).select(
@@ -21,6 +22,11 @@ const createActividad = async (
   const existingActividad = await Actividad.findOne({ name: name });
   if (existingActividad) {
     throw new Error("Ya existe una actividad con ese nombre.");
+  }
+
+  const existingCategory = await Category.findById(categoryId);
+  if (!existingCategory) {
+    throw new Error("La categoría especificada no existe.");
   }
 
   const newActividad = new Actividad({
