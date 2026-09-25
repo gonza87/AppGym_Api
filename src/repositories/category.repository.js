@@ -1,4 +1,5 @@
 const Category = require("../models/category.model");
+const Actividad = require("../models/actividad.model");
 
 const findCategoryById = async (id) => {
   return await Category.findById(id).select("");
@@ -9,6 +10,10 @@ const findAllCategories = async () => {
 };
 
 const createCategory = async (name) => {
+  const existingCategory = await Category.findOne({ name: name });
+  if (existingCategory) {
+    throw new Error("Error. Ya existe una categoría con ese nombre.");
+  }
   const newCategory = new Category({
     name: name,
   });
@@ -16,11 +21,16 @@ const createCategory = async (name) => {
 };
 
 const deleteCategoryById = async (id) => {
+  const activities = await Actividad.find({ categoryId: id });
+  if (activities.length > 0) {
+    throw new Error(
+      "Error. No sepuede eliminar la categoría porque tiene actividades asociadas.",
+    );
+  }
   return await Category.deleteOne({ _id: id });
 };
 
 const updateCategoryById = async (id, body) => {
-
   const catergoryUpdate = await Category.findById(id);
   console.log(catergoryUpdate);
 

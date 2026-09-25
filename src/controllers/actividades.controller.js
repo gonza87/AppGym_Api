@@ -7,18 +7,28 @@ const {
 } = require("../repositories/actividad.repository");
 
 const getActividadesController = async (req, res) => {
-  const actividades = await findAllActividades();
-  res.status(200).json(actividades);
+  try {
+    const actividades = await findAllActividades();
+    res.status(200).json(actividades);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error al obtener las actividades.", error: error.message });
+  }
 };
 
 const getActividadControllerById = async (req, res) => {
-  const actividad = await findActividadById(req.params.id);
-  if (actividad) {
-    res.status(200).json(actividad);
-  } else {
-    res.status(404).json({
-      message: `Actividad no encontrada`,
-    });
+  try {
+    const actividad = await findActividadById(req.params.id);
+    if (actividad) {
+      res.status(200).json(actividad);
+    } else {
+      res.status(404).json({
+        message: `Actividad no encontrada`,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error al obtener la actividad.", error: error.message });
   }
 };
 
@@ -32,10 +42,19 @@ const postActividadController = async (req, res) => {
   }
 
   const { name, categoryId, description, date, schedule } = req.body;
-  createActividad(name, categoryId, description, date, schedule);
-  res.status(201).json({
-    message: "Actividad creada correctamente",
-  });
+  try {
+    await createActividad(name, categoryId, description, date, schedule);
+    res.status(201).json({
+      message: "Actividad creada correctamente",
+    });
+  } catch (error) {
+    if (error.message === "Ya existe una actividad con ese nombre.") {
+      return res.status(409).json({ message: error.message });
+    }
+
+    console.error(error);
+    res.status(500).json({ message: "Error al crear la actividad.", error: error.message });
+  }
 };
 
 const putActividadController = async (req, res) => {
@@ -48,13 +67,18 @@ const putActividadController = async (req, res) => {
     });
   }
 
-  const updated = await updateActividadById(id, req.body);
-  if (updated) {
-    res.status(200).json(updated);
-  } else {
-    res.status(404).json({
-      message: `Actividad no encontrada`,
-    });
+  try {
+    const updated = await updateActividadById(id, req.body);
+    if (updated) {
+      res.status(200).json(updated);
+    } else {
+      res.status(404).json({
+        message: `Actividad no encontrada`,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error al actualizar la actividad.", error: error.message });
   }
 };
 
@@ -67,13 +91,18 @@ const deleteActividadController = async (req, res) => {
     });
   }
 
-  const deleted = await deleteActividadById(req.params.id);
-  if (deleted.deletedCount === 1) {
-    res.status(204).send();
-  } else {
-    res.status(404).json({
-      message: `Actividad no encontrada`,
-    });
+  try {
+    const deleted = await deleteActividadById(req.params.id);
+    if (deleted.deletedCount === 1) {
+      res.status(204).send();
+    } else {
+      res.status(404).json({
+        message: `Actividad no encontrada`,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error al eliminar la actividad.", error: error.message });
   }
 };
 

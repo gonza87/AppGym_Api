@@ -1,4 +1,5 @@
 const Actividad = require("../models/actividad.model");
+const Inscripcion = require("../models/inscripciones.model");
 
 const findActividadById = async (id) => {
   return await Actividad.findById(id).select(
@@ -17,6 +18,11 @@ const createActividad = async (
   date,
   schedule,
 ) => {
+  const existingActividad = await Actividad.findOne({ name: name });
+  if (existingActividad) {
+    throw new Error("Ya existe una actividad con ese nombre.");
+  }
+
   const newActividad = new Actividad({
     name: name,
     categoryId: categoryId,
@@ -24,10 +30,17 @@ const createActividad = async (
     date: date,
     schedule: schedule,
   });
+
   await newActividad.save();
 };
 
 const deleteActividadById = async (id) => {
+  const inscripciones = await Inscripcion.find({ activityId: id });
+  if (inscripciones.length > 0) {
+    throw new Error(
+      "No se puede eliminar la actividad porque tiene inscripciones asociadas.",
+    );
+  }
   return await Actividad.deleteOne({ _id: id });
 };
 

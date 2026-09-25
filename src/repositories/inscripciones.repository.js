@@ -1,5 +1,5 @@
 const Inscripcion = require("../models/inscripciones.model");
-
+const User = require("../models/user.model");
 /*const findInscripcionById = async (id) => {
   return await Inscripcion.findById(id);
 };*/
@@ -16,12 +16,37 @@ const findInscripcionById = async (inscripcionId, userId) => {
 };*/
 
 const createInscripcion = async (userId, activityId, date) => {
-  const newInscripcion = new Inscripcion({
+  const countInscriptions = await Inscripcion.countDocuments({
+    userId: userId,
+  });
+
+  const userInscription = await User.findById(userId);
+
+  const existingInscripcion = await Inscripcion.findOne({
     userId: userId,
     activityId: activityId,
-    date: date,
   });
-  return await newInscripcion.save();
+
+  if (existingInscripcion) {
+    throw new Error("El usuario ya está inscrito en esta actividad.");
+  }
+
+  if (
+    (!userInscription.premium && countInscriptions <= 4) ||
+    userInscription.premium
+  ) {
+    const newInscripcion = new Inscripcion({
+      userId: userId,
+      activityId: activityId,
+      date: date,
+    });
+
+    return await newInscripcion.save();
+  } else {
+    throw new Error(
+      "Los usuarios no premium solo pueden inscribirse a un máximo de 4 actividades.",
+    );
+  }
 };
 
 const deleteInscripcionById = async (inscripcionId, userId) => {
