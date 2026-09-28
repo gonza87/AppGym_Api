@@ -62,30 +62,7 @@ const updateActividadById = async (id, body) => {
   }
 
   return actividadAActualizar;
-
-  // if (!actividadAActualizar) return null;
-  // Object.assign(actividadAActualizar, body);
-  // return await actividadAActualizar.save();
 };
-
-/*
-const upateToDo = async (todoId, userId, payload) => {
-    const todo = await Todo.findOne({
-        _id:todoId,
-        userId: userId
-    });
-
-    console.log(todo);
-    
-    if(todo){
-        Object.entries(payload).forEach(([key, value]) => {
-            todo[key] = value;
-        })
-        await todo.save();
-    }
-    return todo;
-};
-*/
 
 module.exports = {
   findActividadById,

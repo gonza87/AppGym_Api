@@ -5,11 +5,6 @@ const {
   deleteInscripcionById,
 } = require("../repositories/inscripciones.repository");
 
-
-/*const getInscripcionesController = (req, res) => {
-  res.status(200).json(findAllInscripciones());
-};*/
-
 const getInscripcionesController = async (req, res) => {
   const { id } = req.user;
   const page = parseInt(req.query.page) || 1;
@@ -73,30 +68,6 @@ const deleteInscripcionController = async (req, res) => {
     res.status(500).json({ message: "Error al eliminar la inscripción.", error: error.message });
   }
 };
-
-// const deleteCategoriaController = async (req, res) => {
-//   const role = req.user.role;
-//   if (role !== "admin") {
-//     return res.status(403).json({
-//       message:
-//         "Acceso denegado. Solo los administradores pueden eliminar categorías.",
-//     });
-//   }
-
-//   try {
-//     const deleted = await deleteCategoryById(req.params.id);
-//     if (deleted.deletedCount === 1) {
-//       res.status(204).send();
-//     } else {
-//       res.status(404).json({
-//         message: `Actividad no encontrada`,
-//       });
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "Error al eliminar la categoría.", error: error.message });
-//   }
-// };
 
 module.exports = {
   getInscripcionesController,

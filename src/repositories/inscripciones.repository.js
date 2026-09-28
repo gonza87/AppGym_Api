@@ -2,20 +2,12 @@ const Inscripcion = require("../models/inscripciones.model");
 const User = require("../models/user.model");
 const Actividad = require("../models/actividad.model");
 
-/*const findInscripcionById = async (id) => {
-  return await Inscripcion.findById(id);
-};*/
-
 const findInscripcionById = async (inscripcionId, userId) => {
   return await Inscripcion.find({
     _id: inscripcionId,
     userId: userId,
   }).select("userId activityId date _id");
 };
-
-/*const findAllInscripciones = async () => {
-  return await Inscripcion.find();
-};*/
 
 const createInscripcion = async (userId, activityId, date) => {
   const countInscriptions = await Inscripcion.countDocuments({
@@ -60,14 +52,6 @@ const createInscripcion = async (userId, activityId, date) => {
 const deleteInscripcionById = async (inscripcionId, userId) => {
   return await Inscripcion.deleteOne({ _id: inscripcionId, userId: userId });
 };
-
-/*
-
-const deleteToDo = async (todoId, userId) => {
-    return await Todo.deleteOne({_id: todoId, userId: userId})
-};
-
-*/
 
 const getInscripcionesPaginated = async (userId, page = 1, limit = 5) => {
   const skip = (page - 1) * limit;

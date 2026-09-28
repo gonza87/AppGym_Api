@@ -6,6 +6,8 @@ const {
   updateActividadById,
 } = require("../repositories/actividad.repository");
 
+const {askGeminiFlash} = require("../services/gemini.service");
+
 const getActividadesController = async (req, res) => {
   try {
     const actividades = await findAllActividades();
@@ -41,9 +43,23 @@ const postActividadController = async (req, res) => {
     });
   }
 
-  const { name, categoryId, description, date, schedule } = req.body;
+  const { name, categoryId, date, schedule } = req.body;
   try {
-    await createActividad(name, categoryId, description, date, schedule);
+    const prompt = `Crea una descripción atractiva y breve (100 caracteres máximo) para la actividad "${name}", con la fecha ${date} y horario ${schedule}. La descripción debe ser clara, concisa y motivadora, destacando los beneficios y características de la actividad.`;
+    console.log("1. Datos recibidos:", req.body);
+
+const geminiResponse = await askGeminiFlash(prompt);
+
+//  console.log("2. Respuesta de Gemini:", geminiResponse);
+
+const parts = geminiResponse?.candidates?.[0]?.content?.parts || [];
+const generatedDescription = parts.find((p) => p.text)?.text || "";
+
+console.log("3. Descripción generada:", generatedDescription);
+
+await createActividad(name, categoryId, generatedDescription, date, schedule);
+
+console.log("4. Actividad guardada correctamente");
     res.status(201).json({
       message: "Actividad creada correctamente",
     });

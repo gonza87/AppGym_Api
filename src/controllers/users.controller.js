@@ -1,5 +1,4 @@
 const { findUserByUsername, cambiarPlanUsuario } = require("../repositories/user.repository");
-//const jwt = require("jsonwebtoken");
 
 const patchUserPremium = async (req, res) => {
   const { username } = req.user;

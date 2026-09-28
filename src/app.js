@@ -9,6 +9,7 @@ const publicRouter = require("./routes/public.router");
 const authRouter = require("./routes/auth.router");
 const connectMongoDB = require("./models/mongo.client");
 const { generalLimiter } = require("./middlewares/rateLimit.middleware");
+const geminiRouter = require("./routes/gemini.router");
 
 
 
@@ -24,11 +25,6 @@ const { generalLimiter } = require("./middlewares/rateLimit.middleware");
 
 const app = express();
 
-// app.use(cors({
-//     methods: "GET, POST, PUT",
-//     origin: '*' //["https://mi-dominio.com", ]
-// }))
-
 app.use(express.json());
 app.use(loggerMiddleware);
 app.use(morgan("dev"));
@@ -38,13 +34,11 @@ app.use(generalLimiter);
 
 app.use("/public", publicRouter);
 app.use("/v1/auth", authRouter);
+
 app.use(authMiddleware);
-
-
-
-
 // Private
 app.use("/v1", privateRouter);
+app.use("/v1/gemini", geminiRouter);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
