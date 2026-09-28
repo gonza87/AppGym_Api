@@ -9,7 +9,7 @@ const publicRouter = require("./routes/public.router");
 const authRouter = require("./routes/auth.router");
 const connectMongoDB = require("./models/mongo.client");
 const { generalLimiter } = require("./middlewares/rateLimit.middleware");
-const geminiRouter = require("./routes/gemini.router");
+// const geminiRouter = require("./routes/gemini.router");
 
 
 
@@ -38,7 +38,7 @@ app.use("/v1/auth", authRouter);
 app.use(authMiddleware);
 // Private
 app.use("/v1", privateRouter);
-app.use("/v1/gemini", geminiRouter);
+// app.use("/v1/gemini", geminiRouter);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {

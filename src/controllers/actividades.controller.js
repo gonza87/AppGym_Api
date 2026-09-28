@@ -8,6 +8,8 @@ const {
 
 const {askGeminiFlash} = require("../services/gemini.service");
 
+const DEFAULT_ACTIVITY_DESCRIPTION = "Una actividad para moverte, entrenar y mejorar tu bienestar.";
+
 const getActividadesController = async (req, res) => {
   try {
     const actividades = await findAllActividades();
@@ -48,18 +50,20 @@ const postActividadController = async (req, res) => {
     const prompt = `Crea una descripción atractiva y breve (100 caracteres máximo) para la actividad "${name}", con la fecha ${date} y horario ${schedule}. La descripción debe ser clara, concisa y motivadora, destacando los beneficios y características de la actividad.`;
     console.log("1. Datos recibidos:", req.body);
 
-const geminiResponse = await askGeminiFlash(prompt);
+    let generatedDescription = DEFAULT_ACTIVITY_DESCRIPTION;
+    try {
+      const geminiResponse = await askGeminiFlash(prompt);
+      const parts = geminiResponse?.candidates?.[0]?.content?.parts || [];
+      generatedDescription = parts.find((part) => part.text)?.text || DEFAULT_ACTIVITY_DESCRIPTION;
+    } catch (error) {
+      console.error("Error al generar la descripción con Gemini:", error.message);
+    }
 
-//  console.log("2. Respuesta de Gemini:", geminiResponse);
+    console.log("3. Descripción generada:", generatedDescription);
 
-const parts = geminiResponse?.candidates?.[0]?.content?.parts || [];
-const generatedDescription = parts.find((p) => p.text)?.text || "";
+    await createActividad(name, categoryId, generatedDescription, date, schedule);
 
-console.log("3. Descripción generada:", generatedDescription);
-
-await createActividad(name, categoryId, generatedDescription, date, schedule);
-
-console.log("4. Actividad guardada correctamente");
+    console.log("4. Actividad guardada correctamente");
     res.status(201).json({
       message: "Actividad creada correctamente",
     });

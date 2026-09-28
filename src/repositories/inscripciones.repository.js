@@ -3,7 +3,7 @@ const User = require("../models/user.model");
 const Actividad = require("../models/actividad.model");
 
 const findInscripcionById = async (inscripcionId, userId) => {
-  return await Inscripcion.find({
+  return await Inscripcion.findOne({
     _id: inscripcionId,
     userId: userId,
   }).select("userId activityId date _id");
@@ -32,7 +32,7 @@ const createInscripcion = async (userId, activityId, date) => {
   }
 
   if (
-    (!userInscription.premium && countInscriptions <= 4) ||
+    (!userInscription.premium && countInscriptions < 4) ||
     userInscription.premium
   ) {
     const newInscripcion = new Inscripcion({
