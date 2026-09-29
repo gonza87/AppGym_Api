@@ -8,9 +8,22 @@ const findActividadById = async (id) => {
   );
 };
 
-/*const findAllActividades = async () => {
-  return await Actividad.find();
-};*/
+const getActividadesByCategoryIdPagineted = async (categoryId, page = 1, limit = 5) => {
+  const skip = (page - 1) * limit;
+  const [actividades, total] = await Promise.all([
+    Actividad.find({ categoryId: categoryId }).skip(skip).limit(limit),
+    Actividad.countDocuments({ categoryId: categoryId }),
+  ]);
+
+  return {
+    data: actividades,
+    page,
+    limit,
+    total,
+    totalPages: Math.ceil(total / limit),
+  };
+}
+
 const getActividadesPaginated = async (page = 1, limit = 5) => {
   const skip = (page - 1) * limit;
 
@@ -86,4 +99,5 @@ module.exports = {
   createActividad,
   deleteActividadById,
   updateActividadById,
+  getActividadesByCategoryIdPagineted,
 };

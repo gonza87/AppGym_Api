@@ -4,6 +4,7 @@ const {
   createActividad,
   deleteActividadById,
   updateActividadById,
+  getActividadesByCategoryIdPagineted,
 } = require("../repositories/actividad.repository");
 
 const { askGeminiFlash } = require("../services/gemini.service");
@@ -19,12 +20,10 @@ const getActividadesController = async (req, res) => {
     res.status(200).json(result);
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({
-        message: "Error al obtener las actividades.",
-        error: error.message,
-      });
+    res.status(500).json({
+      message: "Error al obtener las actividades.",
+      error: error.message,
+    });
   }
 };
 
@@ -40,12 +39,30 @@ const getActividadControllerById = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({
-        message: "Error al obtener la actividad.",
-        error: error.message,
-      });
+    res.status(500).json({
+      message: "Error al obtener la actividad.",
+      error: error.message,
+    });
+  }
+};
+
+const getActividadesByCategoryController = async (req, res) => {
+  const categoryId = req.params.categoryId;
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 5;
+  try {
+    const actividades = await getActividadesByCategoryIdPagineted(
+      categoryId,
+      page,
+      limit,
+    );
+    res.status(200).json(actividades);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Error al obtener las actividades por categoría.",
+      error: error.message,
+    });
   }
 };
 
@@ -119,12 +136,10 @@ const putActividadController = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({
-        message: "Error al actualizar la actividad.",
-        error: error.message,
-      });
+    res.status(500).json({
+      message: "Error al actualizar la actividad.",
+      error: error.message,
+    });
   }
 };
 
@@ -148,12 +163,10 @@ const deleteActividadController = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({
-        message: "Error al eliminar la actividad.",
-        error: error.message,
-      });
+    res.status(500).json({
+      message: "Error al eliminar la actividad.",
+      error: error.message,
+    });
   }
 };
 
@@ -163,4 +176,5 @@ module.exports = {
   postActividadController,
   putActividadController,
   deleteActividadController,
+  getActividadesByCategoryController,
 };

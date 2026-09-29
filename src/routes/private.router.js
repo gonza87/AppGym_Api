@@ -7,6 +7,7 @@ const {
   postActividadController,
   putActividadController,
   deleteActividadController,
+  getActividadesByCategoryController,
 } = require("../controllers/actividades.controller");
 
 const { patchUserPremium } = require("../controllers/users.controller");
@@ -37,6 +38,11 @@ const {
 router.get("/actividades", getActividadesController);
 
 router.get("/actividades/:id", getActividadControllerById);
+
+router.get(
+  "/actividades/categoria/:categoryId",
+  getActividadesByCategoryController,
+);
 
 router.post(
   "/actividades",
