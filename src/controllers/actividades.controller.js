@@ -1,22 +1,30 @@
 const {
-  findAllActividades,
+  getActividadesPaginated,
   findActividadById,
   createActividad,
   deleteActividadById,
   updateActividadById,
 } = require("../repositories/actividad.repository");
 
-const {askGeminiFlash} = require("../services/gemini.service");
+const { askGeminiFlash } = require("../services/gemini.service");
 
-const DEFAULT_ACTIVITY_DESCRIPTION = "Una actividad para moverte, entrenar y mejorar tu bienestar.";
+const DEFAULT_ACTIVITY_DESCRIPTION =
+  "Una actividad para moverte, entrenar y mejorar tu bienestar.";
 
 const getActividadesController = async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 5;
   try {
-    const actividades = await findAllActividades();
-    res.status(200).json(actividades);
+    const result = await getActividadesPaginated(page, limit);
+    res.status(200).json(result);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error al obtener las actividades.", error: error.message });
+    res
+      .status(500)
+      .json({
+        message: "Error al obtener las actividades.",
+        error: error.message,
+      });
   }
 };
 
@@ -32,7 +40,12 @@ const getActividadControllerById = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error al obtener la actividad.", error: error.message });
+    res
+      .status(500)
+      .json({
+        message: "Error al obtener la actividad.",
+        error: error.message,
+      });
   }
 };
 
@@ -48,22 +61,28 @@ const postActividadController = async (req, res) => {
   const { name, categoryId, date, schedule } = req.body;
   try {
     const prompt = `Crea una descripción atractiva y breve (100 caracteres máximo) para la actividad "${name}", con la fecha ${date} y horario ${schedule}. La descripción debe ser clara, concisa y motivadora, destacando los beneficios y características de la actividad.`;
-    console.log("1. Datos recibidos:", req.body);
 
     let generatedDescription = DEFAULT_ACTIVITY_DESCRIPTION;
     try {
       const geminiResponse = await askGeminiFlash(prompt);
       const parts = geminiResponse?.candidates?.[0]?.content?.parts || [];
-      generatedDescription = parts.find((part) => part.text)?.text || DEFAULT_ACTIVITY_DESCRIPTION;
+      generatedDescription =
+        parts.find((part) => part.text)?.text || DEFAULT_ACTIVITY_DESCRIPTION;
     } catch (error) {
-      console.error("Error al generar la descripción con Gemini:", error.message);
+      console.error(
+        "Error al generar la descripción con Gemini:",
+        error.message,
+      );
     }
 
-    console.log("3. Descripción generada:", generatedDescription);
+    await createActividad(
+      name,
+      categoryId,
+      generatedDescription,
+      date,
+      schedule,
+    );
 
-    await createActividad(name, categoryId, generatedDescription, date, schedule);
-
-    console.log("4. Actividad guardada correctamente");
     res.status(201).json({
       message: "Actividad creada correctamente",
     });
@@ -73,7 +92,9 @@ const postActividadController = async (req, res) => {
     }
 
     console.error(error);
-    res.status(500).json({ message: "Error al crear la actividad.", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error al crear la actividad.", error: error.message });
   }
 };
 
@@ -98,7 +119,12 @@ const putActividadController = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error al actualizar la actividad.", error: error.message });
+    res
+      .status(500)
+      .json({
+        message: "Error al actualizar la actividad.",
+        error: error.message,
+      });
   }
 };
 
@@ -122,7 +148,12 @@ const deleteActividadController = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error al eliminar la actividad.", error: error.message });
+    res
+      .status(500)
+      .json({
+        message: "Error al eliminar la actividad.",
+        error: error.message,
+      });
   }
 };
 
