@@ -1,16 +1,20 @@
 {
-  "name": "todos-express",
+  "name": "GYM-express",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/app.js"
+    "dev": "nodemon src/app.js",
+    "vercel:dev": "vercel dev"
   },
-  "keywords": [],
+  "keywords": [
+    "api",
+    "express",
+    "node"
+  ],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "@vonage/messages": "^1.27.1",
     "@vonage/server-sdk": "^3.30.1",
@@ -25,10 +29,10 @@
     "jsonwebtoken": "^9.0.3",
     "mongodb": "^7.6.0",
     "mongoose": "^9.10.1",
-    "multer": "^2.4.0"
+    "multer": "^2.4.0",
+    "morgan": "^1.12.0"
   },
   "devDependencies": {
-    "morgan": "^1.12.0",
     "nodemon": "^3.1.14"
   }
 }
